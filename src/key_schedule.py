@@ -10,4 +10,4 @@ def generer_sous_cles(key):
     k4=rotate16(key,5)>>8
     k5=rotate16(key,7)>>8
     return k1,k2,k3,k4,k5
-print(generer_sous_cles(0xCA61))
+print(generer_sous_cles(0xCA61)[0])
