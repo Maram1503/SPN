@@ -57,6 +57,8 @@ def chiff_msg(msg,key):
         resultat_hex+=format(bloc_chiffre,"02x")
     return resultat_hex
 def dechiff_msg(msg,key):
+    if msg=="":
+        raise ValueError("Message vide!!!")
     octets_dechiffres = []
     for i in range(0, len(msg), 2):  
         morceau_hex = msg[i:i+2]
@@ -70,7 +72,17 @@ bloc = 0xAB
 c = chiffrememnt_bloc(bloc, key)
 d = dechiffrement_bloc(c, key)
 print(bloc, c, d)
-msg="Maram123333"
+msg="Maram123"
 e=chiff_msg(msg,key)
 f=dechiff_msg(e,key)
 print(msg,e,f)
+
+def chiffrer_bloc_par_round(bloc, key):
+    keys = key_schedule.generer_sous_cles(key)
+    resultats = []
+    for i in range(1, 4):
+        bloc = round_normal(bloc, keys[i-1])
+        resultats.append(bloc)   
+    bloc = round_final(bloc, keys[3], keys[4])
+    resultats.append(bloc)   
+    return resultats  
